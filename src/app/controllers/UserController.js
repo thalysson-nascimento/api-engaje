@@ -10,6 +10,16 @@ class UserController {
         const { id, name, email, admin } = await User.create(req.body);
         return res.json({ id, name, email, admin });
     }
+
+    async show(req, res){
+        const userExist = await User.findOne({ where: { id: 1 }, attributes: ['id', 'name', 'email'] });
+
+        if (!userExist) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        return res.json(userExist);
+    }
 }
 
 export default new UserController();
